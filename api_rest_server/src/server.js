@@ -9,10 +9,8 @@ app.use(cors());
 app.use(express.json());
 app.use(morgan('dev'));
 
-// Health
 app.get('/', (req, res) => res.json({ ok: true }));
 
-// Auth
 app.post('/login', (req, res) => {
   const { email, password } = req.body || {};
   const user = db.users.find((u) => u.email === email && u.password === password);
@@ -21,14 +19,12 @@ app.post('/login', (req, res) => {
   return res.json({ token });
 });
 
-// Me
 app.get('/me', authRequired, (req, res) => {
   const user = db.users.find((u) => u.id === req.user.id);
   if (!user) return res.status(401).json({ message: 'Usuário não encontrado' });
   return res.json({ id: user.id, name: user.name, email: user.email, role: user.role });
 });
 
-// Admin-only users CRUD
 app.get('/users', authRequired, requireRole('ADMIN'), (req, res) => {
   return res.json(db.users.map(({ password, ...u }) => u));
 });
@@ -70,7 +66,6 @@ app.delete('/users/:id', authRequired, requireRole('ADMIN'), (req, res) => {
   return res.status(204).send();
 });
 
-// Courses (public list, create requires auth)
 app.get('/courses', (req, res) => {
   return res.json(db.courses.map((c) => ({ ...c })));
 });
@@ -109,7 +104,6 @@ app.delete('/courses/:id', authRequired, (req, res) => {
   return res.status(204).send();
 });
 
-// Admin protected sample route
 app.get('/admin', authRequired, requireRole('ADMIN'), (req, res) => {
   res.json({ message: 'Área admin' });
 });

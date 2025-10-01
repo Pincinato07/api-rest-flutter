@@ -90,20 +90,7 @@ O app resolve a `baseUrl` em tempo de execução (arquivo `lib/core/api_client.d
 
 ---
 
-## 4) Solução de problemas
-- Erro de rede no Flutter Web:
-  - Verifique se a API está respondendo em `http://localhost:3000/`.
-  - Evite misturar HTTPS (app) com HTTP (API). Rode o app web em HTTP (padrão do `flutter run`).
-  - Faça um hard reload do navegador após mudanças no `baseUrl`.
-- Testando em dispositivo físico:
-  - Substitua o `baseUrl` por `http://<IP-da-máquina>:3000` em `lib/core/api_client.dart`.
-  - Garanta que o firewall permita acesso na porta 3000.
-- CORS:
-  - Já habilitado na API. Se mudar a porta/host, garanta que o navegador aponte corretamente.
-
----
-
-## 5) Estrutura principal de código
+## 4) Estrutura principal de código
 - App Flutter
   - `lib/core/api_client.dart` (Dio + interceptor + baseUrl dinâmica)
   - `lib/core/token_storage.dart` (SharedPreferences)
@@ -118,6 +105,6 @@ O app resolve a `baseUrl` em tempo de execução (arquivo `lib/core/api_client.d
 
 ---
 
-## 6) Ajustes comuns
+## 5) Ajustes comuns
 - Porta da API: altere em `src/server.js` (`PORT`) e reinicie.
 - Base URL fixa: se preferir, troque a função `_resolveBaseUrl()` em `lib/core/api_client.dart` por uma constante.
